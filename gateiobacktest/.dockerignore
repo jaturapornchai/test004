@@ -1,0 +1,29 @@
+# Logs
+logs/
+*.log
+
+# Environment files
+.env.local
+.env.production
+
+# IDE files
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Go vendor
+vendor/
+
+# Go binary
+gateio-trading-bot
+gateio-trading-bot.exe
+
+# Test files
+*_test.go
+
+# Temporary files
+tmp/
+temp/

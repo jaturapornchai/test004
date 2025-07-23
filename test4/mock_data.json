@@ -1,0 +1,52 @@
+{
+  "products": [
+    {
+      "name": "iPhone 15 Pro",
+      "description": "สมาร์ทโฟนรุ่นล่าสุดจาก Apple พร้อมชิป A17 Pro",
+      "price": 39900,
+      "category": "Electronics",
+      "stock": 25,
+      "image_url": "https://example.com/iphone15pro.jpg"
+    },
+    {
+      "name": "MacBook Air M2",
+      "description": "แล็ปท็อปที่บางและเบาพร้อมชิป M2 ประสิทธิภาพสูง",
+      "price": 35900,
+      "category": "Electronics",
+      "stock": 15,
+      "image_url": "https://example.com/macbook-air-m2.jpg"
+    },
+    {
+      "name": "AirPods Pro 2",
+      "description": "หูฟังไร้สายพร้อมระบบตัดเสียงรบกวน",
+      "price": 8900,
+      "category": "Electronics",
+      "stock": 50,
+      "image_url": "https://example.com/airpods-pro-2.jpg"
+    },
+    {
+      "name": "Nike Air Max 270",
+      "description": "รองเท้าผ้าใบสำหรับการออกกำลังกายและใส่ประจำวัน",
+      "price": 4500,
+      "category": "Fashion",
+      "stock": 30,
+      "image_url": "https://example.com/nike-air-max-270.jpg"
+    },
+    {
+      "name": "เสื้อยืดผ้าฝ้าย 100%",
+      "description": "เสื้อยืดคุณภาพดีผ้าฝ้าย 100% สีพื้นหลากหลาย",
+      "price": 299,
+      "category": "Fashion",
+      "stock": 100,
+      "image_url": "https://example.com/cotton-tshirt.jpg"
+    },
+    {
+      "name": "กาแฟอาราบิก้าคั่วกลาง",
+      "description": "เมล็ดกาแฟอาราบิก้าคุณภาพพรีเมียม คั่วกลาง 250g",
+      "price": 350,
+      "category": "Food & Beverage",
+      "stock": 80,
+      "image_url": "https://example.com/arabica-coffee.jpg"
+    }
+  ]
+}

@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barcode Generator - Clean B&W</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.5/JsBarcode.all.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+            max-width: 500px;
+            width: 100%;
+            border: 2px solid #ff8c42;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #ff6b35;
+            margin-bottom: 30px;
+            font-size: 2em;
+            font-weight: 700;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ff6b35;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+        
+        input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid #ffe4d6;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #fffaf7;
+            color: #000000;
+        }
+        
+        input::placeholder {
+            color: #ffb399;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #ff8c42;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(255, 140, 66, 0.1);
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #ffffff;
+        }
+        
+        button:active:not(:disabled) {
+            transform: translateY(1px);
+        }
+        
+        button:disabled {
+            background: #e0e0e0;
+            color: #999999;
+            cursor: not-allowed;
+        }
+        
+        .btn-generate {
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
+        }
+        
+        .btn-generate:hover {
+            background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        }
+        
+        button:not(.btn-generate):not(:disabled) {
+            background: #ff8c42;
+        }
+        
+        button:not(.btn-generate):not(:disabled):hover {
+            background: #ff6b35;
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        }
+        
+        .preview-container {
+            margin-top: 30px;
+            text-align: center;
+            padding: 20px;
+            background: #fff8f5;
+            border: 2px solid #ffe4d6;
+            border-radius: 8px;
+            min-height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #preview {
+            max-width: 100%;
+            border: 1px solid #e0e0e0;
+            background: #ffffff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        #placeholder {
+            color: #ff8c42;
+            font-size: 1em;
+            font-weight: 500;
+        }
+        
+        #hiddenCanvas, #barcodeCanvas {
+            display: none;
+        }
+        
+        .success-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ff8c42;
+            color: #ffffff;
+            padding: 15px 25px;
+            border-radius: 6px;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        }
+        
+        .success-message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .success-message.error {
+            background: #ff4444;
+        }
+        
+        .barcode-type {
+            color: #ff8c42;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+        }
+        
+        .icon-btn:hover {
+            background: #ff6b35 !important;
+            box-shadow: 0 3px 10px rgba(255, 107, 53, 0.3);
+        }
+        
+        .icon-btn:hover svg {
+            transform: rotate(180deg);
+        }
+        
+        .icon-btn:active {
+            transform: translateY(1px);
+        }
+        
+        .icon-btn svg {
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🟠 Barcode Generator</h1>
+        
+        <div class="form-group">
+            <label for="barcode">รหัส Barcode</label>
+            <div style="display: flex; gap: 6px; align-items: center;">
+                <input type="text" id="barcode" placeholder="กดปุ่มด้านขวาเพื่อสร้างรหัส" autocomplete="off" style="flex: 1; height: 34px; padding: 8px 12px; border-radius: 4px;">
+                <button onclick="generateRandomBarcode()" class="icon-btn" style="width: 34px; height: 34px; padding: 0; border-radius: 4px; background: #ff8c42; border: none; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; flex-shrink: 0;" title="สร้าง Barcode ใหม่">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="23 4 23 10 17 10"></polyline>
+                        <polyline points="1 20 1 14 7 14"></polyline>
+                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                    </svg>
+                </button>
+            </div>
+            <small style="color: #ff8c42; font-size: 12px; margin-top: 5px; display: block;">* กดปุ่มหมุนเพื่อสุ่มรหัส EAN-13</small>
+            <div id="barcode-type" class="barcode-type"></div>
+        </div>
+        
+        <div class="form-group">
+            <label for="name">ชื่อสินค้า/คูปอง</label>
+            <input type="text" id="name" placeholder="กรอกชื่อสินค้าหรือคูปอง (ไม่บังคับ)" autocomplete="off">
+        </div>
+        
+        <div class="form-group">
+            <label for="code">รหัส</label>
+            <input type="text" id="code" placeholder="กรอกรหัส (ไม่บังคับ)" autocomplete="off">
+        </div>
+        
+        <div class="form-group">
+            <label for="amount">จำนวนเงิน</label>
+            <input type="number" id="amount" placeholder="กรอกจำนวนเงิน (ไม่บังคับ)" step="0.01" autocomplete="off">
+        </div>
+        
+        <div class="preview-container">
+            <img id="preview" style="display: none;" alt="Barcode Preview">
+            <div id="placeholder">กรอกข้อมูลและกดสร้าง Barcode</div>
+        </div>
+        
+        <div class="button-group">
+            <button onclick="downloadImage()" disabled>Download PNG</button>
+            <button onclick="copyToClipboard()" disabled>Copy Image</button>
+        </div>
+    </div>
+    
+    <canvas id="hiddenCanvas"></canvas>
+    <canvas id="barcodeCanvas"></canvas>
+    
+    <div class="success-message" id="successMessage"></div>
+    
+    <script>
+        let currentImageData = null;
+        
+        // ฟังก์ชันตรวจสอบชนิดของ barcode แบบง่าย
+        function detectBarcodeType(barcode) {
+            // ลบช่องว่าง
+            barcode = barcode.replace(/\s/g, '');
+            
+            // ตรวจสอบตัวเลขล้วน
+            if (/^\d+$/.test(barcode)) {
+                if (barcode.length === 13) return 'EAN13';
+                if (barcode.length === 8) return 'EAN8';
+                if (barcode.length === 12) return 'UPC';
+                if (barcode.length === 14) return 'ITF14';
+            }
+            
+            // ถ้ามีตัวอักษรหรืออักขระพิเศษ ใช้ CODE128
+            return 'CODE128';
+        }
+        
+        // ฟังก์ชันแสดงชนิดของ barcode
+        function displayBarcodeType(type) {
+            const typeDisplay = document.getElementById('barcode-type');
+            const typeNames = {
+                'EAN13': 'EAN-13 (สินค้าทั่วไป)',
+                'EAN8': 'EAN-8 (สินค้าขนาดเล็ก)',
+                'UPC': 'UPC-A (สินค้าอเมริกา)',
+                'ITF14': 'ITF-14 (กล่องสินค้า)',
+                'CODE128': 'Code 128 (ทั่วไป)'
+            };
+            
+            typeDisplay.textContent = `ชนิด: ${typeNames[type] || type}`;
+        }
+        
+        function generateRandomBarcodeOnly() {
+            // สร้าง barcode แบบ EAN-13 (13 หลัก)
+            let barcode = '';
+            for (let i = 0; i < 12; i++) {
+                barcode += Math.floor(Math.random() * 10);
+            }
+            
+            // คำนวณ check digit สำหรับ EAN-13
+            let sum = 0;
+            for (let i = 0; i < 12; i++) {
+                if (i % 2 === 0) {
+                    sum += parseInt(barcode[i]);
+                } else {
+                    sum += parseInt(barcode[i]) * 3;
+                }
+            }
+            let checkDigit = (10 - (sum % 10)) % 10;
+            barcode += checkDigit;
+            
+            document.getElementById('barcode').value = barcode;
+            displayBarcodeType('EAN13');
+        }
+        
+        function generateRandomBarcode() {
+            generateRandomBarcodeOnly();
+            createBarcode();
+            showMessage('สร้างรหัส Barcode ใหม่แล้ว!', 'success');
+        }
+        
+        function createBarcode() {
+            const name = document.getElementById('name').value;
+            const code = document.getElementById('code').value;
+            const amount = document.getElementById('amount').value;
+            let barcodeValue = document.getElementById('barcode').value;
+            
+            // ถ้ายังไม่มี barcode
+            if (!barcodeValue) {
+                showMessage('กรุณากดปุ่ม "สร้าง Barcode ใหม่" เพื่อสร้างรหัส', 'error');
+                return;
+            }
+            
+            // ลบช่องว่าง
+            barcodeValue = barcodeValue.trim();
+            
+            // ตรวจสอบชนิดของ barcode
+            const barcodeType = detectBarcodeType(barcodeValue);
+            displayBarcodeType(barcodeType);
+            
+            // สร้าง barcode บน canvas ชั่วคราว
+            const barcodeCanvas = document.getElementById('barcodeCanvas');
+            
+            try {
+                // ลองสร้างด้วยชนิดที่ตรวจพบ
+                let options = {
+                    format: barcodeType,
+                    width: 2,
+                    height: 70,
+                    displayValue: true,
+                    fontSize: 14,
+                    margin: 10,
+                    background: "#ffffff",
+                    lineColor: "#000000",
+                    valid: function(valid) {
+                        if (!valid) {
+                            console.log("Barcode validation failed");
+                        }
+                    }
+                };
+                
+                JsBarcode(barcodeCanvas, barcodeValue, options);
+                
+            } catch (error) {
+                // ถ้า error ลองใช้ CODE128 แทน
+                try {
+                    JsBarcode(barcodeCanvas, barcodeValue, {
+                        format: "CODE128",
+                        width: 2,
+                        height: 70,
+                        displayValue: true,
+                        fontSize: 14,
+                        margin: 10,
+                        background: "#ffffff",
+                        lineColor: "#000000"
+                    });
+                    displayBarcodeType('CODE128');
+                } catch (error2) {
+                    showMessage('รหัส Barcode ไม่ถูกต้อง กรุณาตรวจสอบอีกครั้ง', 'error');
+                    console.error('Barcode generation error:', error2);
+                    return;
+                }
+            }
+            
+            // สร้าง canvas หลักสำหรับรวมทุกอย่าง
+            const canvas = document.getElementById('hiddenCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // คำนวณความสูงของ canvas ตามเนื้อหา
+            const hasName = name && name.trim() !== '';
+            const hasAmount = amount && parseFloat(amount) > 0;
+            const hasCode = code && code.trim() !== '';
+            
+            let canvasHeight = 150; // base height สำหรับ barcode อย่างเดียว
+            if (hasName) canvasHeight += 35;
+            if (hasAmount) canvasHeight += 40;
+            if (hasCode) canvasHeight += 30;
+            
+            // ตั้งค่าขนาด canvas
+            canvas.width = 400;
+            canvas.height = canvasHeight;
+            
+            // พื้นหลังสีขาว
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // กรอบนอกสีดำ
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(1, 1, canvas.width - 2, canvas.height - 2);
+            
+            let yPosition = 30;
+            
+            // 1. ชื่อสินค้า/คูปอง (บนสุด) - แสดงเฉพาะเมื่อมี
+            if (hasName) {
+                ctx.fillStyle = '#000000';
+                ctx.font = 'bold 18px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(name, canvas.width / 2, yPosition);
+                yPosition += 20;
+            }
+            
+            // 2. BARCODE
+            ctx.drawImage(barcodeCanvas, (canvas.width - barcodeCanvas.width) / 2, yPosition);
+            yPosition += barcodeCanvas.height + 30; // เพิ่มจาก 15 เป็น 30
+            
+            // 3. จำนวนเงิน (ถ้ามี และมากกว่า 0)
+            if (hasAmount) {
+                ctx.font = 'bold 36px Arial'; // เพิ่มกลับจาก 32px เป็น 36px
+                ctx.fillStyle = '#000000';
+                const formattedAmount = parseFloat(amount).toLocaleString('th-TH', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+                ctx.fillText('฿' + formattedAmount, canvas.width / 2, yPosition);
+                yPosition += 35; // เพิ่มจาก 30 เป็น 35
+            }
+            
+            // 4. รหัส (ถ้ามี)
+            if (hasCode) {
+                ctx.font = '14px Arial';
+                ctx.fillStyle = '#000000';
+                ctx.textAlign = 'center';
+                ctx.fillText('รหัส: ' + code, canvas.width / 2, yPosition);
+            }
+            
+            // แปลงเป็น image
+            currentImageData = canvas.toDataURL('image/png');
+            const preview = document.getElementById('preview');
+            preview.src = currentImageData;
+            preview.style.display = 'block';
+            document.getElementById('placeholder').style.display = 'none';
+            
+            // เปิดใช้งานปุ่ม
+            document.querySelectorAll('button[disabled]').forEach(btn => {
+                btn.disabled = false;
+            });
+            
+            showMessage('สร้าง Barcode สำเร็จ!', 'success');
+        }
+        
+        function downloadImage() {
+            if (!currentImageData) {
+                showMessage('ไม่มีรูปภาพให้ดาวน์โหลด', 'error');
+                return;
+            }
+            
+            try {
+                const link = document.createElement('a');
+                const timestamp = new Date().getTime();
+                link.download = `barcode_${timestamp}.png`;
+                link.href = currentImageData;
+                link.click();
+                
+                showMessage('ดาวน์โหลดสำเร็จ!', 'success');
+            } catch (error) {
+                showMessage('เกิดข้อผิดพลาดในการดาวน์โหลด', 'error');
+                console.error('Download error:', error);
+            }
+        }
+        
+        async function copyToClipboard() {
+            if (!currentImageData) return;
+            
+            try {
+                const blob = await (await fetch(currentImageData)).blob();
+                const item = new ClipboardItem({ 'image/png': blob });
+                await navigator.clipboard.write([item]);
+                showMessage('คัดลอกรูปภาพสำเร็จ!', 'success');
+            } catch (err) {
+                console.error('Error copying image:', err);
+                showMessage('ไม่สามารถคัดลอกรูปภาพได้', 'error');
+            }
+        }
+        
+        function showMessage(text, type) {
+            const messageEl = document.getElementById('successMessage');
+            messageEl.textContent = text;
+            messageEl.className = 'success-message';
+            if (type === 'error') {
+                messageEl.classList.add('error');
+            }
+            messageEl.classList.add('show');
+            
+            setTimeout(() => {
+                messageEl.classList.remove('show');
+            }, 3000);
+        }
+        
+        // ตรวจสอบการกรอกข้อมูลแบบ real-time
+        let debounceTimer;
+        document.querySelectorAll('input').forEach(input => {
+            // ไม่ต้องฟังการเปลี่ยนแปลงของ barcode input
+            if (input.id === 'barcode') return;
+            
+            input.addEventListener('input', () => {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => {
+                    const barcodeValue = document.getElementById('barcode').value;
+                    
+                    // สร้างเมื่อมี barcode แล้ว
+                    if (barcodeValue) {
+                        createBarcode();
+                    }
+                }, 500); // รอ 500ms หลังจากหยุดพิมพ์
+            });
+        });
+        
+        // สำหรับ barcode input ให้ตรวจสอบชนิดและสร้างทันที
+        document.getElementById('barcode').addEventListener('input', (e) => {
+            const barcodeValue = e.target.value;
+            
+            if (barcodeValue) {
+                // แสดงชนิดของ barcode ทันที
+                const type = detectBarcodeType(barcodeValue);
+                displayBarcodeType(type);
+                
+                // สร้าง barcode
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => {
+                    createBarcode();
+                }, 500);
+            } else {
+                document.getElementById('barcode-type').textContent = '';
+            }
+        });
+        
+        // Enter key support
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    createBarcode();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

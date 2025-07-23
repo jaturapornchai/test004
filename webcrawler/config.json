@@ -1,0 +1,37 @@
+{
+  "max_depth": 3,
+  "delay_seconds": 2,
+  "output_file": "found_emails.json",
+  "start_urls": [
+    "https://pantip.com",
+    "https://sanook.com",
+    "https://kapook.com",
+    "https://mthai.com",
+    "https://thairath.co.th",
+    "https://manager.co.th",
+    "https://siamzone.com",
+    "https://dek-d.com",
+    "https://thaipbs.or.th",
+    "https://komchadluek.net"
+  ],
+  "thai_domains": [
+    ".th", ".co.th", ".ac.th", ".go.th", ".or.th", ".net.th"
+  ],
+  "thai_sites": [
+    "sanook.com", "pantip.com", "kapook.com", "mthai.com",
+    "thairath.co.th", "manager.co.th", "bangkokpost.com",
+    "nationthailand.com", "thaipbs.or.th", "mcot.net",
+    "komchadluek.net", "khaosod.co.th", "posttoday.com",
+    "workpointtoday.com", "ch3thailand.com", "tnn24.com",
+    "thaienquirer.com", "siamzone.com", "dek-d.com",
+    "jeban.com", "bloggang.com", "thaivisa.com"
+  ],
+  "skip_extensions": [
+    ".pdf", ".jpg", ".jpeg", ".png", ".gif", ".zip", 
+    ".rar", ".exe", ".doc", ".docx", ".mp4", ".avi", 
+    ".mp3", ".wav", ".css", ".js"
+  ],
+  "min_thai_ratio": 0.2,
+  "min_thai_chars": 10,
+  "user_agent": "Thai-WebCrawler/1.0"
+}

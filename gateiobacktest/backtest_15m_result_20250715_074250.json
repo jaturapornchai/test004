@@ -1,0 +1,17 @@
+{
+  "symbol": "SOL_USDT",
+  "start_date": "2024-07-15T07:42:50.7595814+07:00",
+  "end_date": "2025-07-15T07:42:50.7595814+07:00",
+  "initial_capital": 1000,
+  "final_capital": 1000,
+  "total_return": 0,
+  "total_return_pct": 0,
+  "total_trades": 0,
+  "winning_trades": 0,
+  "losing_trades": 0,
+  "win_rate": 0,
+  "max_drawdown": 0,
+  "max_drawdown_pct": 0,
+  "trades": [],
+  "daily_returns": []
+}
