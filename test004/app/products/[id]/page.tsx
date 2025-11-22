@@ -406,7 +406,7 @@ export default function ProductDetailPage() {
           <div>
             <div className="flex items-center gap-2">
               <h1 className="text-2xl font-bold text-slate-800">{product.name}</h1>
-              {isLowStock && <Badge variant="error">สินค้าใกล้หมด</Badge>}
+              {isLowStock && <Badge variant="danger">สินค้าใกล้หมด</Badge>}
             </div>
             <p className="text-slate-500">รหัส: {product.sku}</p>
           </div>

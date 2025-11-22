@@ -102,7 +102,7 @@ export default function LoanDetailPage() {
         <CardContent>
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <Badge variant={loan.status === "active" ? "success" : loan.status === "overdue" ? "error" : "default"}>
+              <Badge variant={loan.status === "active" ? "success" : loan.status === "overdue" ? "danger" : "default"}>
                 {loanStatusLabels[loan.status]}
               </Badge>
               <span className="text-sm text-slate-500">{loanTypeLabels[loan.loanType]}</span>
@@ -296,7 +296,7 @@ export default function LoanDetailPage() {
                   {item.paid ? (
                     <Badge variant="success">ชำระแล้ว</Badge>
                   ) : new Date(item.dueDate) < new Date() ? (
-                    <Badge variant="error">ค้างชำระ</Badge>
+                    <Badge variant="danger">ค้างชำระ</Badge>
                   ) : (
                     <Badge variant="warning">รอชำระ</Badge>
                   )}

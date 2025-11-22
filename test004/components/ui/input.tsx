@@ -43,8 +43,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               'transition-all duration-200',
               'disabled:bg-slate-50 disabled:text-slate-500 disabled:cursor-not-allowed',
               error && 'border-red-500 focus:border-red-500 focus:ring-red-500/20',
-              leftIcon && 'pl-10',
-              rightIcon && 'pr-10',
+              !!leftIcon && 'pl-10',
+              !!rightIcon && 'pr-10',
               className
             )}
             {...props}

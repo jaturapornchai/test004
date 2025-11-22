@@ -91,6 +91,7 @@ export function CardFooter({ children, className }: CardFooterProps) {
 interface StatsCardProps {
   title: string;
   value: string | number;
+  subtitle?: string;
   icon?: ReactNode;
   trend?: {
     value: number;
@@ -100,7 +101,7 @@ interface StatsCardProps {
   color?: 'blue' | 'green' | 'yellow' | 'red' | 'purple';
 }
 
-export function StatsCard({ title, value, icon, trend, color = 'blue' }: StatsCardProps) {
+export function StatsCard({ title, value, subtitle, icon, trend, color = 'blue' }: StatsCardProps) {
   const colors = {
     blue: 'from-blue-500 to-blue-600',
     green: 'from-emerald-500 to-emerald-600',
@@ -123,6 +124,7 @@ export function StatsCard({ title, value, icon, trend, color = 'blue' }: StatsCa
         <div>
           <p className="text-sm font-medium text-slate-500">{title}</p>
           <p className="text-2xl font-bold text-slate-900 mt-1">{value}</p>
+          {subtitle && <p className="text-xs text-slate-500 mt-1">{subtitle}</p>}
           {trend && (
             <div className="flex items-center gap-1 mt-2">
               <span

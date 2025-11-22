@@ -178,7 +178,7 @@ export default function MemberDetailPage() {
                   {member.prefix}{member.firstName} {member.lastName}
                 </h3>
                 <p className="text-slate-500">รหัสสมาชิก: {member.memberId}</p>
-                <Badge variant={getMemberStatusColor(member.status) as "success" | "warning" | "error"}>
+                <Badge variant={getMemberStatusColor(member.status) as "success" | "warning" | "danger"}>
                   {getMemberStatusLabel(member.status)}
                 </Badge>
               </div>
@@ -484,7 +484,7 @@ export default function MemberDetailPage() {
                     </TableCell>
                     <TableCell className="text-right">{formatCurrency(loan.monthlyPayment)}</TableCell>
                     <TableCell>
-                      <Badge variant={loan.status === "active" ? "success" : "error"}>
+                      <Badge variant={loan.status === "active" ? "success" : "danger"}>
                         {loan.status === "active" ? "ปกติ" : "ค้างชำระ"}
                       </Badge>
                     </TableCell>
@@ -690,7 +690,7 @@ export default function MemberDetailPage() {
               <p className="text-2xl font-bold text-blue-700">{formatNumber(financial.shares.totalShares)} หุ้น</p>
               <p className="text-sm text-blue-600">มูลค่า {formatCurrency(financial.shares.totalValue)}</p>
             </div>
-            <Input label="จำนวนหุ้นที่ต้องการซื้อ" type="number" required helperText="100 บาท/หุ้น" />
+            <Input label="จำนวนหุ้นที่ต้องการซื้อ" type="number" required hint="100 บาท/หุ้น" />
             <div className="p-3 bg-slate-50 rounded-lg">
               <p className="text-sm text-slate-600">ยอดชำระ</p>
               <p className="text-xl font-bold text-slate-800">฿0.00</p>

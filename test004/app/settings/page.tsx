@@ -178,25 +178,25 @@ export default function SettingsPage() {
               label="มูลค่าหุ้น (บาท/หุ้น)"
               type="number"
               defaultValue={mockBylaws.shareValue}
-              helperText="ตามข้อบังคับสหกรณ์"
+              hint="ตามข้อบังคับสหกรณ์"
             />
             <Input
               label="หุ้นขั้นต่ำที่ต้องถือ (หุ้น)"
               type="number"
               defaultValue={mockBylaws.minSharesRequired}
-              helperText="จำนวนหุ้นขั้นต่ำเมื่อสมัครสมาชิก"
+              hint="จำนวนหุ้นขั้นต่ำเมื่อสมัครสมาชิก"
             />
             <Input
               label="หุ้นสูงสุดที่ถือได้ (หุ้น)"
               type="number"
               defaultValue={mockBylaws.maxSharesAllowed}
-              helperText="ไม่เกิน 1/5 ของทุนเรือนหุ้นทั้งหมด"
+              hint="ไม่เกิน 1/5 ของทุนเรือนหุ้นทั้งหมด"
             />
             <Input
               label="ค่าหุ้นรายเดือนขั้นต่ำ (บาท)"
               type="number"
               defaultValue={mockBylaws.monthlySharePayment}
-              helperText="ยอดหักจากเงินเดือนหรือชำระด้วยตนเอง"
+              hint="ยอดหักจากเงินเดือนหรือชำระด้วยตนเอง"
             />
           </div>
         </CardContent>
@@ -223,7 +223,7 @@ export default function SettingsPage() {
               type="number"
               step="0.01"
               defaultValue={mockBylaws.withdrawalPenaltyPercent}
-              helperText="กรณีลาออกก่อนครบ 1 ปี"
+              hint="กรณีลาออกก่อนครบ 1 ปี"
             />
           </div>
         </CardContent>
@@ -821,7 +821,7 @@ export default function SettingsPage() {
             </Select>
             <Input label="อัตราดอกเบี้ย (%/ปี)" type="number" step="0.01" required />
             <Input label="ยอดขั้นต่ำ (บาท)" type="number" required />
-            <Input label="ระยะเวลาฝาก (เดือน)" type="number" helperText="เฉพาะเงินฝากประจำ" />
+            <Input label="ระยะเวลาฝาก (เดือน)" type="number" hint="เฉพาะเงินฝากประจำ" />
           </div>
         </ModalContent>
         <ModalFooter>
