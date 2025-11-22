@@ -103,6 +103,8 @@ export function formatPhone(phone: string): string {
  */
 export const memberStatusLabels: Record<string, string> = {
   active: 'ปกติ',
+  inactive: 'ไม่ใช้งาน',
+  suspended: 'ระงับ',
   resigned: 'ลาออก',
   deceased: 'ถึงแก่กรรม',
   expelled: 'ให้ออก',
@@ -110,10 +112,35 @@ export const memberStatusLabels: Record<string, string> = {
 
 export const memberStatusColors: Record<string, string> = {
   active: 'bg-green-100 text-green-800',
+  inactive: 'bg-slate-100 text-slate-800',
+  suspended: 'bg-amber-100 text-amber-800',
   resigned: 'bg-gray-100 text-gray-800',
   deceased: 'bg-gray-100 text-gray-800',
   expelled: 'bg-red-100 text-red-800',
 };
+
+const memberStatusVariants: Record<string, 'default' | 'success' | 'warning' | 'danger' | 'info'> = {
+  active: 'success',
+  inactive: 'default',
+  suspended: 'warning',
+  resigned: 'warning',
+  deceased: 'warning',
+  expelled: 'danger',
+};
+
+/**
+ * แปลงสถานะสมาชิกเป็นข้อความที่อ่านง่าย
+ */
+export function getMemberStatusLabel(status: string): string {
+  return memberStatusLabels[status] ?? 'ไม่ระบุ';
+}
+
+/**
+ * แปลงสถานะสมาชิกเป็นรูปแบบ Badge variant
+ */
+export function getMemberStatusColor(status: string): 'default' | 'success' | 'warning' | 'danger' | 'info' {
+  return memberStatusVariants[status] ?? 'default';
+}
 
 /**
  * สถานะสินเชื่อ
@@ -193,6 +220,11 @@ export const provinces = [
 ];
 
 /**
+ * รายชื่อจังหวัดในประเทศไทย (alias)
+ */
+export const thaiProvinces = provinces;
+
+/**
  * ประเภทพืช
  */
 export const cropTypes = [
@@ -226,38 +258,3 @@ export function validatePhone(phone: string): boolean {
 export function validateEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
-
-/**
- * Get member status label
- */
-export function getMemberStatusLabel(status: string): string {
-  const labels: Record<string, string> = {
-    active: 'ใช้งาน',
-    inactive: 'ไม่ใช้งาน',
-    suspended: 'ระงับ',
-    resigned: 'ลาออก',
-    deceased: 'ถึงแก่กรรม',
-    expelled: 'ให้ออก',
-  };
-  return labels[status] || status;
-}
-
-/**
- * Get member status color for Badge component
- */
-export function getMemberStatusColor(status: string): string {
-  const colors: Record<string, string> = {
-    active: 'success',
-    inactive: 'default',
-    suspended: 'warning',
-    resigned: 'default',
-    deceased: 'default',
-    expelled: 'error',
-  };
-  return colors[status] || 'default';
-}
-
-/**
- * Thai provinces list (alias)
- */
-export const thaiProvinces = provinces;
